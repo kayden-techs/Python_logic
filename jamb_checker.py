@@ -1,41 +1,50 @@
-# JAMB Registry Checker 2026
+# JAMB REGISTRATION SYSTEM 2026
+# Structured Version
 
-print("=== JAMB REGISTRATION SYSTEM ===")
+def collect_candidate_data():
+    print("=== JAMB REGISTRATION SYSTEM ===")
 
-name = input("Enter your full name: ")
+    name = input("Enter your full name: ")
+    age = int(input("Enter your age: "))
+    e_pin = input("Do you have E-PIN? (yes/no): ").lower()
+    nin = input("Enter your NIN: ")
+    waec = input("Do you have O'level result? (yes/no): ").lower()
 
-age = int(input("Enter your age: "))
+    return name, age, e_pin, nin, waec
 
-e_pin = input("Enter your E-PIN (yes/no): ").lower()
 
-profile_code = input("Enter your profile code: ")
+def validate_candidate(age, e_pin, nin, waec):
+    if age < 17:
+        return "Not eligible: Age below 17"
 
-marital_status = input("Enter your marital status: ")
+    if len(nin) != 11:
+        return "Invalid NIN"
 
-gsm = input("Enter your mobile number: ")
+    if e_pin != "yes":
+        return "E-PIN required"
 
-state = input("Enter your state: ")
+    if waec != "yes":
+        return "O'level result required"
 
-email = input("Enter your email address: ")
+    return "Eligible"
 
-nin = input("Enter your NIN: ")
 
-waec = input("Do you have O'level result? (yes/no): ").lower()
+def display_result(name, result):
+    print("\n=== REGISTRATION STATUS ===")
 
-# ---- VALIDATION LOGIC ----
+    if result == "Eligible":
+        print("Candidate:", name)
+        print("Status: ✅ Eligible")
+    else:
+        print("Candidate:", name)
+        print("Status: ❌", result)
 
-if age < 17:
-    print("❌ Not eligible: Age below 17")
 
-elif len(nin) != 11:
-    print("❌ Invalid NIN")
+def main():
+    name, age, e_pin, nin, waec = collect_candidate_data()
+    result = validate_candidate(age, e_pin, nin, waec)
+    display_result(name, result)
 
-elif e_pin != "yes":
-    print("❌ E-PIN not provided")
 
-elif waec != "yes":
-    print("❌ O'level result required")
-
-else:
-    print("✅ Candidate Eligible")
-    print("Processing registration for", name)
+# Run the program
+main()
